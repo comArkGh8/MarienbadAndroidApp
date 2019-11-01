@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Marienbad</string>
+
+    <!-- on activity_main -->
+    <string name="welcome_text">Welcome to the game of Marienbad!</string>
+    <string name="instruct_text">read instructions</string>
+    <string name="introBody">This game is based on the game played in the movie, "Marienbad".</string>
+    <string name="title_activity_instructions">InstructionsActivity</string>
+
+    <string name="computer">Computer</string>
+    <string name="person">You</string>
+
+
+    <!-- for BoardActivity -->
+    <string name="choice_error"> "Sticks must be removed from the same row!" </string>
+    <string name="player_announcement"> The player is: %1$d </string>
+
+</resources>
