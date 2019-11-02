@@ -70,9 +70,12 @@ public class BoardActivity extends AppCompatActivity {
 
     public void setUpSticks(List<int[]> rowSticks, boolean fromNextButton){
 
+        // make defensive copy; this is being way cautious
+        List<int[]> rowSticksCopy = Collections.unmodifiableList(rowSticks);
+
         for (int rowIndex = 0; rowIndex < 4; rowIndex++){
-            int row = rowSticks.get(rowIndex)[0];
-            int number_to_set = rowSticks.get(rowIndex)[1];
+            int row = rowSticksCopy.get(rowIndex)[0];
+            int number_to_set = rowSticksCopy.get(rowIndex)[1];
             int number_in_row = 7 - 2*(row - 1);
             int mid_point = 5 - row;
             int left_hand = mid_point - number_to_set/2;
@@ -110,7 +113,7 @@ public class BoardActivity extends AppCompatActivity {
         if (fromNextButton){
             nextButtonPressed = false;
             // reset select
-            select = new int[4];
+            resetSelectionArray();
         }
 
 
@@ -150,8 +153,7 @@ public class BoardActivity extends AppCompatActivity {
 
 
 
-        select = new int[4];; // to keep track of selected sticks in row 1
-        //TODO: check if all zeros.
+        resetSelectionArray(); // to keep track of selected sticks in row 1
         choiceIsInvalid = false;
 
         mWhoActionText = (TextView) findViewById(R.id.whose_action);
@@ -184,10 +186,13 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                nextButtonPressed = true;
+
                 // first check if all chosen sticks are in same row
                 choiceIsInvalid = multipleRowsSelected() || noSticksSelected();
+
                 if (choiceIsInvalid){
-                    // TODO: Setup a redo screen
+
                     // make a toast with error message
                     Toast toast = Toast.makeText(getApplicationContext(),
                             " ",
@@ -208,13 +213,16 @@ public class BoardActivity extends AppCompatActivity {
 
                     toast.show();
 
-                    // TODO:
-                    // setup screen again
+                    // setup screen again; reset selection array
+                    resetSelectionArray();
+                    // make defensive copy
+                    List<int[]> rowSticksCopy = getRowSticksArray();
+                    setUpSticks(rowSticksCopy, nextButtonPressed);
+
 
                 }
                 else{
-                    nextButtonPressed = true;
-                    // TODO: enter changes; get new list of rows...
+
                     updateRowsSticksArray(select);
                     player = (player + 1) % 2;
                     List<int[]> rowSticksCopy = getRowSticksArray();
@@ -235,9 +243,6 @@ public class BoardActivity extends AppCompatActivity {
     private void updateRowsSticksArray(int[] sticksToRemove){
         // get a defensive copy
         List<int[]> rowsAndSticks = this.getRowSticksArray();
-
-        // make sure there is a selection else throw an error
-        //TODO; IM HERE !!!!!!!!!!!!!!!
 
         int rowChosenIndex = getRowSticksToRemove(select)[0] - 1;
         int numberSticksToRemove = getRowSticksToRemove(select)[1];
@@ -310,6 +315,10 @@ public class BoardActivity extends AppCompatActivity {
         else{
             select[rowIndex]--;
         }
+    }
+
+    private void resetSelectionArray(){
+        select = new int[4];
     }
 
 

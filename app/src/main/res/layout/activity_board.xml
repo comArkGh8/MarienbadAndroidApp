@@ -236,7 +236,7 @@
         app:layout_constraintStart_toStartOf="@+id/checkBox3_2"
         app:layout_constraintTop_toBottomOf="@+id/checkBox3_2"
 
-        android:onClick="onRowThreeCheckboxClicked"/>
+        android:onClick="onRowFourCheckboxClicked"/>
 
     <Button
         android:id="@+id/next_button"
