@@ -229,8 +229,15 @@ public class BoardActivity extends AppCompatActivity {
 
                 nextButtonPressed = true;
 
+
                 // first check if all chosen sticks are in same row
-                choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+                if (player == 1){
+                    choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+                }
+                else {
+                    choiceIsInvalid = false;
+                }
+
 
                 if (choiceIsInvalid) {
 
@@ -262,16 +269,19 @@ public class BoardActivity extends AppCompatActivity {
 
                 }
                 else {
-                    resetSelectionArray();
                     player = (player + 1) % 2;
 
                     // update screen
                     if (player == 0){
+                        updateRowsSticksArray();
                         computerPlay();
                     }
                     else{
                         humanPlay();
                     }
+
+
+                    resetSelectionArray();
 
                 }
 
@@ -310,6 +320,9 @@ public class BoardActivity extends AppCompatActivity {
         // make defensive copy
         List<int[]> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, false, select);
+
+        updateRowsSticksArray();
+
     }
 
 
@@ -322,8 +335,6 @@ public class BoardActivity extends AppCompatActivity {
         List<int[]> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
 
-
-        resetSelectionArray(); // to keep track of selected sticks in row 1
         choiceIsInvalid = false;
 
         buttonText = "enter choice";
