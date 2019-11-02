@@ -198,111 +198,92 @@ public class BoardActivity extends AppCompatActivity {
         if (onStart) {
             initializeBoard();
             onStart = false;
+            nextButtonPressed = true;
         }
 
         mWhoActionText = (TextView) findViewById(R.id.whose_action);
         mWhoActionText.setText(getString(R.string.player_announcement, player));
 
         mNextButton = (Button) findViewById(R.id.next_button);
-        String buttonText;
 
         if (player == 0) {
-            // player is the computer
-            select = getComputerChoice();
-
-            buttonText = "continue";
-            mNextButton.setText(buttonText);
-
-            // TODO: put rest in onclick!
-
-            // setup, then update
-
-            // make defensive copy
-            List<int[]> rowSticksCopy = getRowSticksArray();
-            setUpSticks(rowSticksCopy, false, select);
-
-            updateRowsSticksArray();
+            computerPlay();
         }
         else {
-            // player is human
-
-            // make defensive copy
-            List<int[]> rowSticksCopy = getRowSticksArray();
-            setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
-
-
-            resetSelectionArray(); // to keep track of selected sticks in row 1
-            choiceIsInvalid = false;
-
-            buttonText = " enter choice";
-            mNextButton.setText(buttonText);
-
-
-            // TODO: finish; IM HERE!!!!
-            // what happens when next_button is clicked
-            // need to include the choiceIsInvalid variable
-            mNextButton.setOnClickListener(new View.OnClickListener() {
-
-                /**
-                 * The onClick method is triggered when this button (mDoSomethingCoolButton) is clicked.
-                 *
-                 * @param v The view that is clicked. In this case, it's mDoSomethingCoolButton.
-                 */
-                @Override
-                public void onClick(View v) {
-
-                    nextButtonPressed = true;
-
-                    // first check if all chosen sticks are in same row
-                    choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
-
-                    if (choiceIsInvalid) {
-
-                        // make a toast with error message
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                " ",
-                                Toast.LENGTH_SHORT);
-
-                        if (multipleRowsSelected()) {
-                            toast.setText(R.string.multiple_choice_error);
-                        } else {
-                            toast.setText(R.string.no_choice_error);
-                        }
-
-                        View view = toast.getView();
-
-                        //Gets the TextView from the Toast so it can be edited
-                        TextView text = view.findViewById(android.R.id.message);
-                        text.setTextColor(Color.RED);
-
-                        toast.show();
-
-                        // setup screen again; reset selection array
-                        resetSelectionArray();
-                        // make defensive copy
-                        List<int[]> rowSticksCopy = getRowSticksArray();
-                        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
-
-
-                    } else {
-
-                        updateRowsSticksArray();
-                        player = (player + 1) % 2;
-                        List<int[]> rowSticksCopy = getRowSticksArray();
-                        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
-                    }
-
-                    Class boardActivity = BoardActivity.class;
-                    //Intent startChildActivityIntent = new Intent(MainActivity.this, boardActivity);
-                    //startActivity(startChildActivityIntent);
-
-                }
-            });
-
+            humanPlay();
         }
 
 
+        // TODO: finish; IM HERE!!!!
+        // what happens when next_button is clicked
+        // need to include the choiceIsInvalid variable
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * The onClick method is triggered when this button (mDoSomethingCoolButton) is clicked.
+             *
+             * @param v The view that is clicked. In this case, it's mDoSomethingCoolButton.
+             */
+            @Override
+            public void onClick(View v) {
+
+                nextButtonPressed = true;
+
+                // first check if all chosen sticks are in same row
+                choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+
+                if (choiceIsInvalid) {
+
+                    // make a toast with error message
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            " ",
+                            Toast.LENGTH_SHORT);
+
+                    if (multipleRowsSelected()) {
+                        toast.setText(R.string.multiple_choice_error);
+                    } else {
+                        toast.setText(R.string.no_choice_error);
+                    }
+
+                    View view = toast.getView();
+
+                    //Gets the TextView from the Toast so it can be edited
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.RED);
+
+                    toast.show();
+
+                    // setup screen again; reset selection array
+                    resetSelectionArray();
+                    // make defensive copy
+                    List<int[]> rowSticksCopy = getRowSticksArray();
+                    setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
+
+
+                }
+                else {
+                    resetSelectionArray();
+                    player = (player + 1) % 2;
+
+                    // update screen
+                    if (player == 0){
+                        computerPlay();
+                    }
+                    else{
+                        humanPlay();
+                    }
+
+                }
+
+                Class boardActivity = BoardActivity.class;
+                //Intent startChildActivityIntent = new Intent(MainActivity.this, boardActivity);
+                //startActivity(startChildActivityIntent);
+
+            }
+        });
+
     }
+
 
     //TODO: replace with code!!!!
     private int[] getComputerChoice() {
@@ -310,6 +291,44 @@ public class BoardActivity extends AppCompatActivity {
         return sampleArray;
     }
 
+
+    private void computerPlay(){
+
+        mNextButton = (Button) findViewById(R.id.next_button);
+        String buttonText;
+
+        if (nextButtonPressed) {
+            select = getComputerChoice();
+        }
+
+        nextButtonPressed = false;
+
+        buttonText = "continue";
+        mNextButton.setText(buttonText);
+
+        // setup
+        // make defensive copy
+        List<int[]> rowSticksCopy = getRowSticksArray();
+        setUpSticks(rowSticksCopy, false, select);
+    }
+
+
+    private void humanPlay(){
+
+        mNextButton = (Button) findViewById(R.id.next_button);
+        String buttonText;
+
+        // make defensive copy
+        List<int[]> rowSticksCopy = getRowSticksArray();
+        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
+
+
+        resetSelectionArray(); // to keep track of selected sticks in row 1
+        choiceIsInvalid = false;
+
+        buttonText = "enter choice";
+        mNextButton.setText(buttonText);
+    }
 
     private void updateRowsSticksArray(){
         // get a defensive copy
