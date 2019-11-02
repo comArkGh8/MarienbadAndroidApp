@@ -185,13 +185,21 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // first check if all chosen sticks are in same row
-                choiceIsInvalid = multipleRowsSelected();
+                choiceIsInvalid = multipleRowsSelected() || noSticksSelected();
                 if (choiceIsInvalid){
                     // TODO: Setup a redo screen
                     // make a toast with error message
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            R.string.choice_error,
+                            " ",
                             Toast.LENGTH_SHORT);
+
+                    if (multipleRowsSelected()){
+                        toast.setText(R.string.multiple_choice_error);
+                    }
+                    else{
+                        toast.setText(R.string.no_choice_error);
+                    }
+
                     View view = toast.getView();
 
                     //Gets the TextView from the Toast so it can be edited
@@ -202,8 +210,6 @@ public class BoardActivity extends AppCompatActivity {
 
                     // TODO:
                     // setup screen again
-
-
 
                 }
                 else{
@@ -281,6 +287,21 @@ public class BoardActivity extends AppCompatActivity {
         return multiRow;
     }
 
+
+    private boolean noSticksSelected(){
+        boolean noSticks = false;
+        int totalSum = 0;
+
+        for (int i = 0; i < 4; i++){
+            totalSum += select[i];
+        }
+
+        if (totalSum == 0){
+            noSticks = true;
+        }
+
+        return noSticks;
+    }
 
     private void incrementSelect(int rowIndex, boolean checked){
         if (checked) {

@@ -12,7 +12,8 @@
 
 
     <!-- for BoardActivity -->
-    <string name="choice_error"> "Sticks must be removed from the same row!" </string>
+    <string name="multiple_choice_error"> "Sticks must be removed from the same row!" </string>
+    <string name="no_choice_error"> "At least one stick must be chosen" </string>
     <string name="player_announcement"> The player is: %1$d </string>
 
 </resources>
