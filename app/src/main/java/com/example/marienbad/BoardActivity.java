@@ -192,12 +192,9 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        // TODO: add computer vs. player setup
-
         // if first time (from start) then setup with initial
         if (onStart) {
             initializeBoard();
-            onStart = false;
             nextButtonPressed = true;
         }
 
@@ -206,6 +203,8 @@ public class BoardActivity extends AppCompatActivity {
 
         mNextButton = (Button) findViewById(R.id.next_button);
 
+
+
         if (player == 0) {
             computerPlay();
         }
@@ -213,6 +212,7 @@ public class BoardActivity extends AppCompatActivity {
             humanPlay();
         }
 
+        onStart = false;
 
         // TODO: finish; IM HERE!!!!
         // what happens when next_button is clicked
@@ -280,7 +280,8 @@ public class BoardActivity extends AppCompatActivity {
                         humanPlay();
                     }
 
-
+                    // only reset if next button has been pressed
+                    // because on create may be called from a rotation!
                     resetSelectionArray();
 
                 }
