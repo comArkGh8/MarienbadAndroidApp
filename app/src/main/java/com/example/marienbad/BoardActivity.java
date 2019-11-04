@@ -22,6 +22,8 @@ import static java.lang.System.out;
 public class BoardActivity extends AppCompatActivity {
 
     private static int player; // 0 will be computer; 1 will be human
+    private static String gameType; // either two_player or computer
+    private static int gameLevel; // 1 = easy; 2 = moderate; 3 = difficult
     private static List<int[]> rowSticksArray = new ArrayList<int[]>(); // of the form [[1,7], [2,5], [3,3], [4,1]]
     private static int[] select; // to keep track of selected sticks in rows
     private static boolean choiceIsInvalid;
@@ -36,10 +38,18 @@ public class BoardActivity extends AppCompatActivity {
     public static boolean onStart;
     private static boolean nextButtonPressed;
 
+
+
     // method to set player
     public static void setPlayer(int playerInt){
         player = playerInt;
     }
+
+    // method to set game type
+    public static void setGamePlay (String type) { gameType = type; }
+
+    // method to set game difficulty level
+    public static void setLevel (int level) { gameLevel = level; }
 
 
     // make defensive copy of list
@@ -196,11 +206,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // if reloaded just need select array
         if (savedInstanceState != null) {
-            // TODO: get select
             select = savedInstanceState.getIntArray("selection");
-            // TODO: erase!!!!
-            out.println("on saved the selection is...");
-            out.println(Arrays.toString(select));
         }
         else{
             resetSelectionArray();

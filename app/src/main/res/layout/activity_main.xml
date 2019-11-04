@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
     <TextView
@@ -20,15 +26,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.074" />
 
+
     <TextView
         android:id="@+id/intro_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/introBody"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
@@ -43,65 +51,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/intro_text" />
 
-
-    <TextView
-        android:id="@+id/player_choice_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Select who goes first:"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/ask_what_game"
-        app:layout_constraintTop_toBottomOf="@+id/game_type_radio_group" />
-
-    <RadioGroup
-        android:id="@+id/player_choice_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/player_choice_text"
-        app:layout_constraintTop_toBottomOf="@+id/player_choice_text">
-
-
-        <RadioButton
-            android:id="@+id/computer_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/computer" />
-
-        <RadioButton
-            android:id="@+id/person_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/computer_button"
-            android:layout_alignLeft="@+id/computer_button"
-            android:text="@string/person" />
-
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start game"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="520dp" />
-
     <TextView
         android:id="@+id/ask_what_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:text="@string/ask_game"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/title_text"
         app:layout_constraintTop_toBottomOf="@+id/instructions_button" />
 
     <RadioGroup
@@ -111,6 +67,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
 
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="@+id/ask_what_game"
         app:layout_constraintTop_toBottomOf="@+id/ask_what_game">
@@ -118,69 +75,30 @@
 
         <RadioButton
             android:id="@+id/play_computer_button"
-            android:layout_width="173dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/play_against_computer"
-            app:layout_constraintStart_toStartOf="@+id/player_choice_radio_group"
             tools:layout_editor_absoluteY="284dp" />
 
         <RadioButton
             android:id="@+id/two_player_button"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:text="@string/two_player_text"
-            app:layout_constraintStart_toEndOf="@+id/player_choice_radio_group"
             tools:layout_editor_absoluteY="282dp" />
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/difficulty_level_text"
+    <Button
+        android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/ask_difficulty"
-        app:layout_constraintStart_toStartOf="@+id/game_type_radio_group"
-        app:layout_constraintTop_toBottomOf="@+id/player_choice_radio_group" />
-
-    <RadioGroup
-        android:id="@+id/difficulty_level_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/difficulty_level_text"
-        app:layout_constraintTop_toBottomOf="@+id/difficulty_level_text">
-
-    </RadioGroup>
-
-    <RadioButton
-        android:id="@+id/moderate_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/moderate"
-        app:layout_constraintStart_toStartOf="@+id/easy_button"
-        app:layout_constraintTop_toBottomOf="@+id/easy_button" />
-
-    <RadioButton
-        android:id="@+id/easy_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/easy"
-        app:layout_constraintStart_toStartOf="@+id/difficulty_level_text"
-        app:layout_constraintTop_toBottomOf="@+id/difficulty_level_text" />
-
-    <RadioButton
-        android:id="@+id/expert_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/expert"
-        app:layout_constraintStart_toStartOf="@+id/moderate_button"
-        app:layout_constraintTop_toBottomOf="@+id/moderate_button" />
+        android:layout_marginTop="24dp"
+        android:text="@string/start_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_type_radio_group" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

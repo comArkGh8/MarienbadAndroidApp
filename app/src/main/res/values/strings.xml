@@ -6,22 +6,34 @@
     <string name="instruct_text">read instructions</string>
     <string name="introBody">This game is based on the game played in the movie, "Marienbad".</string>
     <string name="title_activity_instructions">InstructionsActivity</string>
-
-    <string name="computer">Computer</string>
-    <string name="person">You</string>
+    <string name="start_button_text">Start game</string>
 
     <string name="ask_game">What type of game do you want to play?</string>
     <string name="play_against_computer"> vs. computer</string>
     <string name="two_player_text"> Two players</string>
-    <string name="ask_difficulty"> Choose a difficulty level:</string>
-    <string name="easy"> easy </string>
-    <string name="moderate"> moderate </string>
-    <string name="expert"> expert </string>
+
+    <string name="no_game_choice_error"> You must choose either a game against the computer or a two player game.  </string>
+
 
 
     <!-- for BoardActivity -->
     <string name="multiple_choice_error"> "Sticks must be removed from the same row!" </string>
     <string name="no_choice_error"> "At least one stick must be chosen" </string>
     <string name="player_announcement"> The player is: %1$d </string>
+
+
+    <!-- for activity_computer_choice -->
+    <string name="announce_computer_choices"> Enter your choices here for play against the computer </string>
+
+    <string name ="select_first"> Select who goes first: </string>
+    <string name="computer">Computer</string>
+    <string name="person">You</string>
+
+    <string name="ask_difficulty"> Choose a difficulty level:</string>
+    <string name="easy"> easy </string>
+    <string name="moderate"> moderate </string>
+    <string name="expert"> expert </string>
+
+
 
 </resources>

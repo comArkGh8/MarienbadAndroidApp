@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,10 +19,32 @@ public class MainActivity extends AppCompatActivity {
     /* Field for the start game Button */
     private Button mStartButton;
 
+
+    // makes sure at least two player or against computer is checked
+    private boolean gameTypeChoiceIsMade(){
+
+        RadioGroup compOrTwoGroup = (RadioGroup) findViewById(R.id.game_type_radio_group);
+        if (compOrTwoGroup.getCheckedRadioButtonId() == -1){
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // TODO: reload
+        // if reloaded need to get radio button choices
+        if (savedInstanceState != null) {
+
+        }
+        else{
+
+        }
 
         /*
          * Using findViewById, we get a reference to our Button from xml. This allows us to
@@ -66,23 +90,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // store the first move player from the radio buttons
-        RadioGroup rg = (RadioGroup) findViewById(R.id.player_choice_radio_group);
 
-        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        // store the game_type from the radio buttons
+        RadioGroup game_type_rg = (RadioGroup) findViewById(R.id.game_type_radio_group);
+
+        game_type_rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId){
-                    case R.id.computer_button:
-                        BoardActivity.setPlayer(0);
+                    case R.id.play_computer_button:
+                        BoardActivity.setGamePlay("computer");
                         break;
-                    case R.id.person_button:
-                        BoardActivity.setPlayer(1);
+                    case R.id.two_player_button:
+                        BoardActivity.setGamePlay("two_player");
                         break;
 
                 }
             }
         });
+
+
 
 
 
@@ -97,12 +124,38 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-                Class boardActivity = BoardActivity.class;
-                Intent startChildActivityIntent = new Intent(MainActivity.this, boardActivity);
-                startActivity(startChildActivityIntent);
 
-                // TODO: initialize board here with rowSticksArray
-                BoardActivity.onStart = true;
+
+                if (!gameTypeChoiceIsMade()){
+                    // make a toast with error message
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            " ",
+                            Toast.LENGTH_SHORT);
+
+                    toast.setText(R.string.no_game_choice_error);
+                    toast.show();
+
+                }
+                else{
+                    Class childActivity = BoardActivity.class;
+
+                    RadioButton compRadio = (RadioButton) findViewById(R.id.play_computer_button);
+                    // find which type of game
+                    boolean againstComputer = compRadio.isChecked();
+
+
+                    if (againstComputer){
+                        childActivity = ComputerChoiceActivity.class;
+                    }
+
+                    Intent startChildActivityIntent = new Intent(MainActivity.this, childActivity);
+                    startActivity(startChildActivityIntent);
+
+                    BoardActivity.onStart = true;
+
+                }
+
+
             }
         });
 
