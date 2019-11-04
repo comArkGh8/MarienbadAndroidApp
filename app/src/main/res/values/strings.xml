@@ -10,6 +10,14 @@
     <string name="computer">Computer</string>
     <string name="person">You</string>
 
+    <string name="ask_game">What type of game do you want to play?</string>
+    <string name="play_against_computer"> vs. computer</string>
+    <string name="two_player_text"> Two players</string>
+    <string name="ask_difficulty"> Choose a difficulty level:</string>
+    <string name="easy"> easy </string>
+    <string name="moderate"> moderate </string>
+    <string name="expert"> expert </string>
+
 
     <!-- for BoardActivity -->
     <string name="multiple_choice_error"> "Sticks must be removed from the same row!" </string>
