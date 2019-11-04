@@ -182,8 +182,10 @@ public class BoardActivity extends AppCompatActivity {
         setUpSticks(rowSticksCopy, true, zeroSelect);
     }
 
-    private void setChecksOnSticks(int [] selectionArray){
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putIntArray("selection", select);
+        super.onSaveInstanceState(outState);
     }
 
 
@@ -191,6 +193,15 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
+        // if reloaded just need select array
+        if (savedInstanceState != null) {
+            // TODO: get select
+            select = savedInstanceState.getIntArray("selection");
+            // TODO: erase!!!!
+            out.println("on saved the selection is...");
+            out.println(Arrays.toString(select));
+        }
 
         // if first time (from start) then setup with initial
         if (onStart) {
@@ -203,7 +214,7 @@ public class BoardActivity extends AppCompatActivity {
 
         mNextButton = (Button) findViewById(R.id.next_button);
 
-
+        nextButtonPressed = false;
 
         if (player == 0) {
             computerPlay();
@@ -212,6 +223,7 @@ public class BoardActivity extends AppCompatActivity {
             humanPlay();
         }
 
+        resetSelectionArray();
         onStart = false;
 
         // TODO: finish; IM HERE!!!!
@@ -280,9 +292,6 @@ public class BoardActivity extends AppCompatActivity {
                         humanPlay();
                     }
 
-                    // only reset if next button has been pressed
-                    // because on create may be called from a rotation!
-                    resetSelectionArray();
 
                 }
 
@@ -308,11 +317,9 @@ public class BoardActivity extends AppCompatActivity {
         mNextButton = (Button) findViewById(R.id.next_button);
         String buttonText;
 
-        if (nextButtonPressed) {
+        if (nextButtonPressed || onStart) {
             select = getComputerChoice();
         }
-
-        nextButtonPressed = false;
 
         buttonText = "continue";
         mNextButton.setText(buttonText);
@@ -334,7 +341,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // make defensive copy
         List<int[]> rowSticksCopy = getRowSticksArray();
-        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
+        setUpSticks(rowSticksCopy, nextButtonPressed, select);
 
         choiceIsInvalid = false;
 
