@@ -202,6 +202,9 @@ public class BoardActivity extends AppCompatActivity {
             out.println("on saved the selection is...");
             out.println(Arrays.toString(select));
         }
+        else{
+            resetSelectionArray();
+        }
 
         // if first time (from start) then setup with initial
         if (onStart) {
@@ -223,7 +226,7 @@ public class BoardActivity extends AppCompatActivity {
             humanPlay();
         }
 
-        resetSelectionArray();
+
         onStart = false;
 
         // TODO: finish; IM HERE!!!!
