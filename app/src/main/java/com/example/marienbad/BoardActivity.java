@@ -292,6 +292,7 @@ public class BoardActivity extends AppCompatActivity {
                         computerPlay();
                     }
                     else{
+                        updateRowsSticksArray();
                         humanPlay();
                     }
 
@@ -332,7 +333,6 @@ public class BoardActivity extends AppCompatActivity {
         List<int[]> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, false, select);
 
-        updateRowsSticksArray();
 
     }
 
