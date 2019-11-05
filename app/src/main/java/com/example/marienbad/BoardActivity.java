@@ -242,7 +242,6 @@ public class BoardActivity extends AppCompatActivity {
 
         onStart = false;
 
-        // TODO: finish; IM HERE!!!!
         // what happens when next_button is clicked
         // need to include the choiceIsInvalid variable
         mNextButton.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +338,20 @@ public class BoardActivity extends AppCompatActivity {
 
     //TODO: replace with code!!!!
     private int[] getComputerChoice() {
-        int[] sampleArray = {1, 0, 0, 0};
+        int[] sampleArray = new int[4];
+        if (gameLevel == 1){
+            // easy level
+            sampleArray[0] = 1;
+        }
+        else if (gameLevel == 2){
+            // moderate level
+            sampleArray[1] = 1;
+        }
+        else if (gameLevel == 3){
+            // moderate level
+            sampleArray[2] = 1;
+        }
+
         return sampleArray;
     }
 
