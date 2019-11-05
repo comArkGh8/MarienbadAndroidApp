@@ -226,12 +226,18 @@ public class BoardActivity extends AppCompatActivity {
 
         nextButtonPressed = false;
 
-        if (player == 0) {
-            computerPlay();
+        if (gameType.equals("computer")){
+            if (player == 0) {
+                computerPlay();
+            }
+            else {
+                humanPlay();
+            }
         }
-        else {
+        else if (gameType.equals("two_player")){
             humanPlay();
         }
+
 
 
         onStart = false;
@@ -253,12 +259,18 @@ public class BoardActivity extends AppCompatActivity {
 
 
                 // first check if all chosen sticks are in same row
-                if (player == 1){
+                if (gameType.equals("computer")){
+                    if (player == 1){
+                        choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+                    }
+                    else {
+                        choiceIsInvalid = false;
+                    }
+                }
+                else if (gameType.equals("two_player")){
                     choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
                 }
-                else {
-                    choiceIsInvalid = false;
-                }
+
 
 
                 if (choiceIsInvalid) {
@@ -291,17 +303,26 @@ public class BoardActivity extends AppCompatActivity {
 
                 }
                 else {
+                    // update
                     player = (player + 1) % 2;
-
-                    // update screen
-                    if (player == 0){
-                        updateRowsSticksArray();
-                        computerPlay();
+                    if (gameType.equals("computer")){
+                        if (player == 0){
+                            updateRowsSticksArray();
+                            computerPlay();
+                        }
+                        else{
+                            updateRowsSticksArray();
+                            humanPlay();
+                        }
                     }
-                    else{
+                    else if (gameType.equals("two_player")){
                         updateRowsSticksArray();
                         humanPlay();
                     }
+
+
+
+
 
 
                 }
@@ -351,7 +372,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // make defensive copy
         List<int[]> rowSticksCopy = getRowSticksArray();
-        setUpSticks(rowSticksCopy, nextButtonPressed, select);
+        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
 
         choiceIsInvalid = false;
 
