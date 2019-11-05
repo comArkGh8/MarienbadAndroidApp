@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,109 +14,137 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ComputerChoiceActivity">
+    tools:context=".BoardActivity">
 
 
-    <TextView
-        android:id="@+id/title_text"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/announce_computer_choices"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.125"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".ComputerChoiceActivity">
 
 
-    <TextView
-        android:id="@+id/player_choice_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:text="@string/select_first"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/title_text"
-        app:layout_constraintTop_toBottomOf="@+id/title_text" />
-
-    <RadioGroup
-        android:id="@+id/player_choice_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-
-        android:layout_marginStart="16dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@+id/player_choice_text"
-        app:layout_constraintTop_toBottomOf="@+id/player_choice_text">
-
-
-        <RadioButton
-            android:id="@+id/computer_button"
+        <TextView
+            android:id="@+id/title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/computer" />
+            android:layout_marginTop="24dp"
+            android:text="@string/announce_computer_choices"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/person_button"
+
+        <TextView
+            android:id="@+id/player_choice_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/person" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@string/select_first"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/title_text"
+            app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/difficulty_level_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/ask_difficulty"
-        app:layout_constraintStart_toStartOf="@+id/player_choice_text"
-        app:layout_constraintTop_toBottomOf="@+id/player_choice_radio_group" />
-
-    <RadioGroup
-        android:id="@+id/difficulty_level_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="@+id/difficulty_level_text"
-        app:layout_constraintTop_toBottomOf="@+id/difficulty_level_text">
-
-        <RadioButton
-            android:id="@+id/moderate_button"
+        <RadioGroup
+            android:id="@+id/player_choice_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/moderate"
-            app:layout_constraintStart_toStartOf="@+id/easy_button"
-            app:layout_constraintTop_toBottomOf="@+id/easy_button" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
 
-        <RadioButton
-            android:id="@+id/easy_button"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/player_choice_text"
+            app:layout_constraintTop_toBottomOf="@+id/player_choice_text">
+
+
+            <RadioButton
+                android:id="@+id/computer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/computer" />
+
+            <RadioButton
+                android:id="@+id/person_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/person" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/difficulty_level_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/easy"
-            app:layout_constraintStart_toStartOf="@+id/difficulty_level_radio_group"
+            android:layout_marginTop="24dp"
+            android:text="@string/ask_difficulty"
+            app:layout_constraintStart_toStartOf="@+id/player_choice_text"
+            app:layout_constraintTop_toBottomOf="@+id/player_choice_radio_group" />
+
+        <RadioGroup
+            android:id="@+id/difficulty_level_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/difficulty_level_text"
+            app:layout_constraintTop_toBottomOf="@+id/difficulty_level_text">
+
+            <RadioButton
+                android:id="@+id/easy_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/easy"
+                app:layout_constraintStart_toStartOf="@+id/difficulty_level_radio_group"
+                app:layout_constraintBottom_toTopOf="@+id/moderate_button"
+                tools:layout_editor_absoluteY="246dp" />
+
+            <RadioButton
+                android:id="@+id/moderate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/moderate"
+                app:layout_constraintBottom_toTopOf="@+id/expert_button"
+                app:layout_constraintStart_toStartOf="@+id/difficulty_level_radio_group"
+                app:layout_constraintTop_toBottomOf="@+id/easy_button" />
+
+            <RadioButton
+                android:id="@+id/expert_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/expert"
+                app:layout_constraintStart_toStartOf="@+id/difficulty_level_radio_group"
+                app:layout_constraintTop_toBottomOf="@+id/moderate_button" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/start_game_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/start_game_button_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficulty_level_radio_group" />
 
-        <RadioButton
-            android:id="@+id/expert_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/expert"
-            app:layout_constraintStart_toStartOf="@+id/easy_button"
-            app:layout_constraintTop_toBottomOf="@+id/easy_button" />
-
-    </RadioGroup>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

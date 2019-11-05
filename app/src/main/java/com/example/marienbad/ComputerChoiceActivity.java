@@ -2,18 +2,49 @@ package com.example.marienbad;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class ComputerChoiceActivity extends AppCompatActivity {
+
+
+
+    /* Field for the start game Button */
+    private Button mStartGameButton;
+
+
+
+    // makes sure at least two player or against computer is checked
+    private boolean choicesAreMade(){
+
+        RadioGroup firstPlayerGroup = (RadioGroup) findViewById(R.id.player_choice_radio_group);
+        if (firstPlayerGroup.getCheckedRadioButtonId() == -1){
+            return false;
+        }
+
+        RadioGroup gameLevelGroup = (RadioGroup) findViewById(R.id.difficulty_level_radio_group);
+        if (gameLevelGroup.getCheckedRadioButtonId() == -1){
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_computer_choice);
-
-
-
 
 
         // store the first move player from the radio buttons
@@ -52,6 +83,43 @@ public class ComputerChoiceActivity extends AppCompatActivity {
                         break;
 
                 }
+            }
+        });
+
+
+        // now to handle the start button
+        mStartGameButton = (Button) findViewById(R.id.start_game_button);
+        mStartGameButton.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * The onClick method is triggered when this button (mDoSomethingCoolButton) is clicked.
+             *
+             * @param v The view that is clicked. In this case, it's mDoSomethingCoolButton.
+             */
+            @Override
+            public void onClick(View v) {
+
+
+                if (!choicesAreMade()){
+                    // make a toast with error message
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            " ",
+                            Toast.LENGTH_SHORT);
+
+                    toast.setText(R.string.no_first_or_level_choices_error);
+                    toast.show();
+
+                }
+                else{
+                    Class boardActivity = BoardActivity.class;
+                    Intent startChildActivityIntent = new Intent(ComputerChoiceActivity.this, boardActivity);
+                    startActivity(startChildActivityIntent);
+
+                    BoardActivity.onStart = true;
+
+                }
+
+
             }
         });
 

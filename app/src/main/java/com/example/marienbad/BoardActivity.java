@@ -212,6 +212,7 @@ public class BoardActivity extends AppCompatActivity {
             resetSelectionArray();
         }
 
+
         // if first time (from start) then setup with initial
         if (onStart) {
             initializeBoard();
