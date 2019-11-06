@@ -57,6 +57,14 @@ public class BoardActivity extends AppCompatActivity {
         return Collections.unmodifiableList(this.rowSticksArray);
     }
 
+    private static boolean gameIsOver(int[] selection){
+        int totalSum = getSumOfSticks(selection);
+        if (totalSum == 1){
+            return true;
+        }
+        return false;
+    }
+
 
     // TODO: I need replace this later with Java code!
     private int getNumberSticksInRow(int row){
@@ -444,14 +452,19 @@ public class BoardActivity extends AppCompatActivity {
         return multiRow;
     }
 
-
-    private boolean noSticksSelected(int[] selection){
-        boolean noSticks = false;
+    private static int getSumOfSticks(int[] selection){
         int totalSum = 0;
 
         for (int i = 0; i < 4; i++){
             totalSum += selection[i];
         }
+        return totalSum;
+    }
+
+
+    private boolean noSticksSelected(int[] selection){
+        boolean noSticks = false;
+        int totalSum = getSumOfSticks(selection);
 
         if (totalSum == 0){
             noSticks = true;
