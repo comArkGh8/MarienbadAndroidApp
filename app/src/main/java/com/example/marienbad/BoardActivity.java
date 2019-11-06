@@ -34,9 +34,13 @@ public class BoardActivity extends AppCompatActivity {
     private TextView mWhoActionText;
     /* Field for the next Button */
     private Button mNextButton;
+    /* Field for Game Over annoucement */
+    private TextView mGameOverText;
 
     public static boolean onStart;
     private static boolean nextButtonPressed;
+
+    private static boolean endOfGame =  false;
 
 
 
@@ -57,8 +61,9 @@ public class BoardActivity extends AppCompatActivity {
         return Collections.unmodifiableList(this.rowSticksArray);
     }
 
-    private static boolean gameIsOver(int[] selection){
-        int totalSum = getSumOfSticks(selection);
+
+    private static boolean gameIsOver(int[] stickArray){
+        int totalSum = getSumOfSticks(stickArray);
         if (totalSum == 1){
             return true;
         }
@@ -212,6 +217,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
+
         // if reloaded just need select array
         if (savedInstanceState != null) {
             select = savedInstanceState.getIntArray("selection");
@@ -231,6 +237,18 @@ public class BoardActivity extends AppCompatActivity {
         mWhoActionText.setText(getString(R.string.player_announcement, player));
 
         mNextButton = (Button) findViewById(R.id.next_button);
+
+        mGameOverText= (TextView) findViewById(R.id.game_over_text);
+
+
+        if (endOfGame){
+            // setup sticks
+            List<int[]> rowSticksCopy = getRowSticksArray();
+            setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
+            // hide next button and set game over text
+            mNextButton.setVisibility(View.INVISIBLE);
+            mGameOverText.setText(R.string.game_over_announcement);
+        }
 
         nextButtonPressed = false;
 
@@ -311,21 +329,39 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 else {
                     // update
-                    player = (player + 1) % 2;
-                    if (gameType.equals("computer")){
-                        if (player == 0){
-                            updateRowsSticksArray();
-                            computerPlay();
+                    updateRowsSticksArray();
+                    // get stickArray to see if game is over
+                    List<int[]> stickRowList = getRowSticksArray();
+                    int[] stickArray = new int[4];
+                    for (int i = 0; i < 4; i++){
+                        int currentNumberSticks = stickRowList.get(i)[1];
+                        stickArray[i] = currentNumberSticks;
+                    }
+                    endOfGame = gameIsOver(stickArray);
+                    if (endOfGame){
+                        // setup sticks
+                        List<int[]> rowSticksCopy = getRowSticksArray();
+                        setUpSticks(rowSticksCopy, nextButtonPressed, select);
+                        // hide next button and set game over text
+                        mNextButton.setVisibility(View.INVISIBLE);
+                        mGameOverText.setText(R.string.game_over_announcement);
+                    }
+                    else{
+                        player = (player + 1) % 2;
+                        if (gameType.equals("computer")){
+                            if (player == 0){
+                                computerPlay();
+                            }
+                            else{
+                                humanPlay();
+                            }
                         }
-                        else{
-                            updateRowsSticksArray();
+                        else if (gameType.equals("two_player")){
                             humanPlay();
                         }
                     }
-                    else if (gameType.equals("two_player")){
-                        updateRowsSticksArray();
-                        humanPlay();
-                    }
+
+
 
 
 
