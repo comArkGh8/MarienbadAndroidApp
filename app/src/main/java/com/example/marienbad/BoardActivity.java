@@ -71,26 +71,6 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    // TODO: I need replace this later with Java code!
-    private int getNumberSticksInRow(int row){
-
-        // find all checkBoxes with id of form row_stickId
-        // and check how many are visible
-        int number_in_row = 7 - 2*(row - 1);
-        int number_visible = 0;
-        for (int i = 1; i <= number_in_row; i++){
-            // build id's
-            String current_id = "checkBox" + row + "_" + i;
-            int resID = getResources().getIdentifier(current_id, "id", getPackageName());
-            CheckBox current_stick = (CheckBox) findViewById(resID);
-            if (current_stick.getVisibility() == View.VISIBLE){
-                number_visible++;
-            }
-        }
-
-        return number_visible;
-    }
-
     /**
      *
      * @param row
