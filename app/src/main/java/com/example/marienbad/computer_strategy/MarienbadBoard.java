@@ -43,6 +43,7 @@ public class MarienbadBoard {
         HashMap<Integer, Integer> sticksMap = this.rowsOfSticks;
         int originalSticks = sticksMap.get(row);
         this.rowsOfSticks.put(row, originalSticks -sticks);
+        this.twoSame = new Integer[2];
     }
 
 

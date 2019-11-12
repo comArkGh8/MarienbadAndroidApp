@@ -30,7 +30,9 @@ public class BoardActivity extends AppCompatActivity {
     private static int player; // 0 will be computer; 1 will be human
     private static String gameType; // either two_player or computer
     private static int gameLevel; // 1 = easy; 2 = moderate; 3 = difficult
-    private static List<int[]> rowSticksArray = new ArrayList<int[]>(); // of the form [[1,7], [2,5], [3,3], [4,1]]
+
+    private static List<Integer> rowSticksArray = new ArrayList<Integer>(); // of the form [7, 5, 3, 1]
+
     private static int[] select; // to keep track of selected sticks in rows
     private static boolean choiceIsInvalid;
 
@@ -63,11 +65,23 @@ public class BoardActivity extends AppCompatActivity {
 
 
     // make defensive copy of list
-    public List<int[]> getRowSticksArray() {
+    public List<Integer> getRowSticksArray() {
         return Collections.unmodifiableList(this.rowSticksArray);
     }
 
-    private static boolean gameIsOver(int[] stickArray){
+    // probably should have only worked with Lists instead of additional
+    // introduction of arrays, here is a (temp) work around
+
+    private static int[] convertListIntegerToIntArray(List<Integer> list){
+        // first get defensive copy of list
+        List<Integer> listCopy = Collections.unmodifiableList(list);
+        Integer[] stickArray = listCopy.toArray(new Integer[listCopy.size()]);
+        int[] intStickArray = Arrays.stream(stickArray).mapToInt(Integer::intValue).toArray();
+        return intStickArray;
+    }
+
+    private static boolean gameIsOver(List<Integer> stickList){
+        int[] stickArray = convertListIntegerToIntArray(stickList);
         int totalSum = getSumOfSticks(stickArray);
         if (totalSum == 1){
             return true;
@@ -97,9 +111,9 @@ public class BoardActivity extends AppCompatActivity {
         int numberSelected = selection[row-1];
 
         // first get rowSticksArray to check
-        List<int[]> rowSticksCopy = getRowSticksArray();
+        List<Integer> rowSticksCopy = getRowSticksArray();
         int mid_point = 5 - row;
-        int number_in_row = rowSticksCopy.get(row - 1)[1];
+        int number_in_row = rowSticksCopy.get(row - 1);
         int left_hand = mid_point - number_in_row/2;
         int right_hand = left_hand + numberSelected - 1;
 
@@ -111,16 +125,14 @@ public class BoardActivity extends AppCompatActivity {
         return false;
     }
 
-
-
-    public void setUpSticks(List<int[]> rowSticks, boolean fromNextButton, int[] selected){
+    public void setUpSticks(List<Integer> rowSticks, boolean fromNextButton, int[] selected){
 
         // make defensive copy; this is being way cautious
-        List<int[]> rowSticksCopy = Collections.unmodifiableList(rowSticks);
+        List<Integer> rowSticksCopy = Collections.unmodifiableList(rowSticks);
 
         for (int rowIndex = 0; rowIndex < 4; rowIndex++){
-            int row = rowSticksCopy.get(rowIndex)[0];
-            int number_to_set = rowSticksCopy.get(rowIndex)[1];
+            int row = rowIndex+1;
+            int number_to_set = rowSticksCopy.get(rowIndex);
             int number_in_row = 7 - 2*(row - 1);
             int mid_point = 5 - row;
             int left_hand = mid_point - number_to_set/2;
@@ -174,20 +186,15 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void initializeBoard(){
-        int[] init1 = {1, 7};
-        int[] init2 = {2, 5};
-        int[] init3 = {3, 3};
-        int[] init4 = {4, 1};
-
-        rowSticksArray.add(init1);
-        rowSticksArray.add(init2);
-        rowSticksArray.add(init3);
-        rowSticksArray.add(init4);
+        rowSticksArray.add(7);
+        rowSticksArray.add(5);
+        rowSticksArray.add(3);
+        rowSticksArray.add(1);
 
         gameBoard = new MarienbadBoard();
 
         // make defensive copy
-        List<int[]> rowSticksCopy = getRowSticksArray();
+        List<Integer> rowSticksCopy = getRowSticksArray();
         // no sticks selected
         setUpSticks(rowSticksCopy, true, zeroSelect);
     }
@@ -230,7 +237,7 @@ public class BoardActivity extends AppCompatActivity {
 
         if (endOfGame){
             // setup sticks
-            List<int[]> rowSticksCopy = getRowSticksArray();
+            List<Integer> rowSticksCopy = getRowSticksArray();
             setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
             // hide next button and set game over text
             mNextButton.setVisibility(View.INVISIBLE);
@@ -309,7 +316,7 @@ public class BoardActivity extends AppCompatActivity {
                     // setup screen again; reset selection array
                     resetSelectionArray();
                     // make defensive copy
-                    List<int[]> rowSticksCopy = getRowSticksArray();
+                    List<Integer> rowSticksCopy = getRowSticksArray();
                     setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
 
 
@@ -317,19 +324,16 @@ public class BoardActivity extends AppCompatActivity {
                 else {
                     // update board view
                     updateRowsSticksArray();
+                    // update Marienbad gameBoard
+                    int rowChosen= getRowSticksToRemove(select)[0];
+                    int numberSticksToRemove = getRowSticksToRemove(select)[1];
+                    gameBoard.change(rowChosen, numberSticksToRemove);
 
-
-                    // get stickArray to see if game is over
-                    List<int[]> stickRowList = getRowSticksArray();
-                    int[] stickArray = new int[4];
-                    for (int i = 0; i < 4; i++){
-                        int currentNumberSticks = stickRowList.get(i)[1];
-                        stickArray[i] = currentNumberSticks;
-                    }
-                    endOfGame = gameIsOver(stickArray);
+                    List<Integer> stickRowList = getRowSticksArray();
+                    endOfGame = gameIsOver(stickRowList);
                     if (endOfGame){
                         // setup sticks
-                        List<int[]> rowSticksCopy = getRowSticksArray();
+                        List<Integer> rowSticksCopy = getRowSticksArray();
                         setUpSticks(rowSticksCopy, nextButtonPressed, select);
                         // hide next button and set game over text
                         mNextButton.setVisibility(View.INVISIBLE);
@@ -369,7 +373,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
-    //TODO: replace with code!!!!
+    // This can be cleaned up
     private int[] getComputerChoice() {
         int[] choiceArray = new int[4];
         List<Integer> choiceList = new ArrayList<>();
@@ -382,17 +386,34 @@ public class BoardActivity extends AppCompatActivity {
                 choiceList = ChoiceOperations.randomChoice(gameBoard);
             }
             else{
-
+                choiceList = ChoiceOperations.bestChoice(gameBoard);
             }
-            choiceArray[0] = 1;
+            int rowIndex = choiceList.get(0) - 1;
+            int numberSticks = choiceList.get(1);
+            choiceArray[rowIndex] = numberSticks;
         }
         else if (gameLevel == 2){
-            // moderate level
-            choiceArray[1] = 1;
+            // moderate level; get random choice 3 times out of 10
+            Random r = new Random();
+            int randomValue = r.nextInt(10);
+            if (randomValue < 3 ){
+                // get random choice
+                choiceList = ChoiceOperations.randomChoice(gameBoard);
+            }
+            else{
+                choiceList = ChoiceOperations.bestChoice(gameBoard);
+            }
+            int rowIndex = choiceList.get(0) - 1;
+            int numberSticks = choiceList.get(1);
+            choiceArray[rowIndex] = numberSticks;
         }
         else if (gameLevel == 3){
-            // moderate level
-            choiceArray[2] = 1;
+            // expert level
+            choiceList = ChoiceOperations.bestChoice(gameBoard);
+
+            int rowIndex = choiceList.get(0) - 1;
+            int numberSticks = choiceList.get(1);
+            choiceArray[rowIndex] = numberSticks;
         }
 
         return choiceArray;
@@ -413,7 +434,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // setup
         // make defensive copy
-        List<int[]> rowSticksCopy = getRowSticksArray();
+        List<Integer> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, false, select);
 
 
@@ -426,7 +447,7 @@ public class BoardActivity extends AppCompatActivity {
         String buttonText;
 
         // make defensive copy
-        List<int[]> rowSticksCopy = getRowSticksArray();
+        List<Integer> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
 
         choiceIsInvalid = false;
@@ -437,17 +458,18 @@ public class BoardActivity extends AppCompatActivity {
 
     private void updateRowsSticksArray(){
         // get a defensive copy
-        List<int[]> rowsAndSticks = this.getRowSticksArray();
+        List<Integer> rowsAndSticks = getRowSticksArray();
 
         int rowChosenIndex = getRowSticksToRemove(select)[0] - 1;
         int numberSticksToRemove = getRowSticksToRemove(select)[1];
 
         // update
-        int currentNumberSticks = rowsAndSticks.get(rowChosenIndex)[1];
+        int currentNumberSticks = rowsAndSticks.get(rowChosenIndex);
         int updatedNumber = currentNumberSticks - numberSticksToRemove;
 
         // build new list
-        rowSticksArray.get(rowChosenIndex)[1] = updatedNumber;
+        rowSticksArray.set(rowChosenIndex, updatedNumber);
+
 
     }
 
