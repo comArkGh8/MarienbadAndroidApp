@@ -11,15 +11,21 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.marienbad.computer_strategy.ChoiceOperations;
+import com.example.marienbad.computer_strategy.MarienbadBoard;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.System.out;
 
 public class BoardActivity extends AppCompatActivity {
+
+    private static MarienbadBoard gameBoard;
 
     private static int player; // 0 will be computer; 1 will be human
     private static String gameType; // either two_player or computer
@@ -60,7 +66,6 @@ public class BoardActivity extends AppCompatActivity {
     public List<int[]> getRowSticksArray() {
         return Collections.unmodifiableList(this.rowSticksArray);
     }
-
 
     private static boolean gameIsOver(int[] stickArray){
         int totalSum = getSumOfSticks(stickArray);
@@ -178,6 +183,8 @@ public class BoardActivity extends AppCompatActivity {
         rowSticksArray.add(init2);
         rowSticksArray.add(init3);
         rowSticksArray.add(init4);
+
+        gameBoard = new MarienbadBoard();
 
         // make defensive copy
         List<int[]> rowSticksCopy = getRowSticksArray();
@@ -308,8 +315,10 @@ public class BoardActivity extends AppCompatActivity {
 
                 }
                 else {
-                    // update
+                    // update board view
                     updateRowsSticksArray();
+
+
                     // get stickArray to see if game is over
                     List<int[]> stickRowList = getRowSticksArray();
                     int[] stickArray = new int[4];
@@ -362,21 +371,31 @@ public class BoardActivity extends AppCompatActivity {
 
     //TODO: replace with code!!!!
     private int[] getComputerChoice() {
-        int[] sampleArray = new int[4];
+        int[] choiceArray = new int[4];
+        List<Integer> choiceList = new ArrayList<>();
         if (gameLevel == 1){
-            // easy level
-            sampleArray[0] = 1;
+            // easy level; get random choice 8 times out of 10
+            Random r = new Random();
+            int randomValue = r.nextInt(10);
+            if (randomValue < 8 ){
+                // get random choice
+                choiceList = ChoiceOperations.randomChoice(gameBoard);
+            }
+            else{
+
+            }
+            choiceArray[0] = 1;
         }
         else if (gameLevel == 2){
             // moderate level
-            sampleArray[1] = 1;
+            choiceArray[1] = 1;
         }
         else if (gameLevel == 3){
             // moderate level
-            sampleArray[2] = 1;
+            choiceArray[2] = 1;
         }
 
-        return sampleArray;
+        return choiceArray;
     }
 
 
@@ -468,6 +487,8 @@ public class BoardActivity extends AppCompatActivity {
         return multiRow;
     }
 
+    // note this method is also in RowOperations
+    // here it is applied with an array as input
     private static int getSumOfSticks(int[] selection){
         int totalSum = 0;
 

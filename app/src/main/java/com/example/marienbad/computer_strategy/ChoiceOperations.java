@@ -17,6 +17,31 @@ public class ChoiceOperations {
 
     /**
      *
+     */
+    public static List<Integer> randomChoice (MarienbadBoard gameBoard){
+        List<Integer> choice = new ArrayList<>();
+        HashMap<Integer,Integer> rowSticksMap = gameBoard.rowsOfSticks;
+        HashMap<Integer,Integer> sortedMap = RowOperations.sortedByIncreasingSticks(rowSticksMap);
+        List<Integer> sortedStickList = new ArrayList<>(sortedMap.values());
+        List<Integer> sortedRowList = new ArrayList<>(sortedMap.keySet());
+
+        int numberOfRows = RowOperations.getNumberNonZeroRows(sortedStickList);
+        Random r = new Random();
+        int randomRowOrderedIndex = r.nextInt(numberOfRows);
+        int randomRow = sortedRowList.get(randomRowOrderedIndex);
+
+        // now from row choose a random number of sticks
+        int numberSticksInRandomRow = sortedStickList.get(randomRowOrderedIndex);
+        int randomSticks = r.nextInt(numberSticksInRandomRow) + 1;
+
+        choice = Arrays.asList(randomRow,randomSticks);
+
+        return choice;
+
+    }
+
+    /**
+     *
      * @param gameBoard - assumes not lost yet (i.e. board is not 1000)
      * @return - best choice if not 1
      */
