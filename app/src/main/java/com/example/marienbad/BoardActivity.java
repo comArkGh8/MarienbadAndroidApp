@@ -2,6 +2,8 @@ package com.example.marienbad;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -41,15 +43,16 @@ public class BoardActivity extends AppCompatActivity {
     /* Field to store our TextView */
     private TextView mWhoActionText;
     /* Field for the next Button */
-    private Button mNextButton;
+    private static Button mNextButton;
     /* Field for Game Over annoucement */
-    private TextView mGameOverText;
+    private static TextView mGameOverText;
+    /* Field for the play again button */
+    private static Button mAgainButton;
 
     public static boolean onStart;
     private static boolean nextButtonPressed;
 
     private static boolean endOfGame =  false;
-
 
 
     // method to set player
@@ -220,6 +223,14 @@ public class BoardActivity extends AppCompatActivity {
             resetSelectionArray();
         }
 
+        mNextButton = (Button) findViewById(R.id.next_button);
+        mAgainButton = (Button) findViewById(R.id.new_game_button);
+        mGameOverText= (TextView) findViewById(R.id.game_over_text);
+
+        mAgainButton.setVisibility(View.INVISIBLE);
+        mNextButton.setVisibility(View.VISIBLE);
+        mGameOverText.setText("");
+
 
         // if first time (from start) then setup with initial
         if (onStart) {
@@ -230,10 +241,6 @@ public class BoardActivity extends AppCompatActivity {
         mWhoActionText = (TextView) findViewById(R.id.whose_action);
         mWhoActionText.setText(getString(R.string.player_announcement, player));
 
-        mNextButton = (Button) findViewById(R.id.next_button);
-
-        mGameOverText= (TextView) findViewById(R.id.game_over_text);
-
 
         if (endOfGame){
             // setup sticks
@@ -242,7 +249,9 @@ public class BoardActivity extends AppCompatActivity {
             // hide next button and set game over text
             mNextButton.setVisibility(View.INVISIBLE);
             mGameOverText.setText(R.string.game_over_announcement);
+            mAgainButton.setVisibility(View.VISIBLE);
         }
+
 
         nextButtonPressed = false;
 
@@ -338,6 +347,7 @@ public class BoardActivity extends AppCompatActivity {
                         // hide next button and set game over text
                         mNextButton.setVisibility(View.INVISIBLE);
                         mGameOverText.setText(R.string.game_over_announcement);
+                        mAgainButton.setVisibility(View.VISIBLE);
                     }
                     else{
                         player = (player + 1) % 2;
@@ -354,19 +364,24 @@ public class BoardActivity extends AppCompatActivity {
                         }
                     }
 
-
-
-
-
-
-
-
                 }
 
-                Class boardActivity = BoardActivity.class;
-                //Intent startChildActivityIntent = new Intent(MainActivity.this, boardActivity);
-                //startActivity(startChildActivityIntent);
+            }
+        });
 
+        mAgainButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                endOfGame = false;
+                rowSticksArray = new ArrayList<Integer>();
+
+                Context context = BoardActivity.this;
+
+                /* This is the class that we want to start (and open) when the button is clicked. */
+                Class mainActivity = MainActivity.class;
+                Intent startChildActivityIntent = new Intent(context, mainActivity);
+                startActivity(startChildActivityIntent);
             }
         });
 
