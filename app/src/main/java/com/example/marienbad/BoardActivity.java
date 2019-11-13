@@ -377,6 +377,8 @@ public class BoardActivity extends AppCompatActivity {
     private int[] getComputerChoice() {
         int[] choiceArray = new int[4];
         List<Integer> choiceList = new ArrayList<>();
+        int rowIndex = 1; // this will be overridden
+        int numberSticks = 1; // this will be overridden
         if (gameLevel == 1){
             // easy level; get random choice 8 times out of 10
             Random r = new Random();
@@ -388,8 +390,9 @@ public class BoardActivity extends AppCompatActivity {
             else{
                 choiceList = ChoiceOperations.bestChoice(gameBoard);
             }
-            int rowIndex = choiceList.get(0) - 1;
-            int numberSticks = choiceList.get(1);
+            rowIndex = choiceList.get(0) - 1;
+            numberSticks = choiceList.get(1);
+
             choiceArray[rowIndex] = numberSticks;
         }
         else if (gameLevel == 2){
@@ -403,19 +406,23 @@ public class BoardActivity extends AppCompatActivity {
             else{
                 choiceList = ChoiceOperations.bestChoice(gameBoard);
             }
-            int rowIndex = choiceList.get(0) - 1;
-            int numberSticks = choiceList.get(1);
-            choiceArray[rowIndex] = numberSticks;
+            rowIndex = choiceList.get(0) - 1;
+            numberSticks = choiceList.get(1);
         }
         else if (gameLevel == 3){
             // expert level
             choiceList = ChoiceOperations.bestChoice(gameBoard);
-
-            int rowIndex = choiceList.get(0) - 1;
-            int numberSticks = choiceList.get(1);
-            choiceArray[rowIndex] = numberSticks;
+            rowIndex = choiceList.get(0) - 1;
+            numberSticks = choiceList.get(1);
         }
-
+        // compare number of sticks to total remaining
+        List<Integer> stickList = getRowSticksArray();
+        int[] stickArray = convertListIntegerToIntArray(stickList);
+        int totalSum = getSumOfSticks(stickArray);
+        if (numberSticks == totalSum){
+            numberSticks--;
+        }
+        choiceArray[rowIndex] = numberSticks;
         return choiceArray;
     }
 
