@@ -334,7 +334,7 @@ public class BoardActivity extends AppCompatActivity {
                     if (endOfGame){
                         // setup sticks
                         List<Integer> rowSticksCopy = getRowSticksArray();
-                        setUpSticks(rowSticksCopy, nextButtonPressed, select);
+                        setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
                         // hide next button and set game over text
                         mNextButton.setVisibility(View.INVISIBLE);
                         mGameOverText.setText(R.string.game_over_announcement);
