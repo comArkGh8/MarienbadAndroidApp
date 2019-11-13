@@ -153,9 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                     BoardActivity.onStart = true;
 
-
                 }
-
 
             }
         });
