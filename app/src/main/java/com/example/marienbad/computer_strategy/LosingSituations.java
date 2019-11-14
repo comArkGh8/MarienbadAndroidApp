@@ -55,7 +55,7 @@ public class LosingSituations {
 
         // else we handle the situation in cases
         // the next belongs to 3 or 4 rows
-        if ((sumOfSticks == 14) || (sumOfSticks == 16)) {
+        if ((sumOfSticks == 14 && (!RowOperations.arrayHasRepeatedRow(stick_array))) || (sumOfSticks == 16)) {
             return true;
         }
 
