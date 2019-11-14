@@ -1,11 +1,13 @@
 package com.example.marienbad;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,15 +32,17 @@ public class BoardActivity extends AppCompatActivity {
     private static MarienbadBoard gameBoard;
 
     private static int player; // 0 will be computer; 1 will be human
+    private static int initialPlayer; // to store in case of back space without change
     private static String gameType; // either two_player or computer
     private static int gameLevel; // 1 = easy; 2 = moderate; 3 = difficult
 
     private static List<Integer> rowSticksArray = new ArrayList<Integer>(); // of the form [7, 5, 3, 1]
 
-    private static int[] select; // to keep track of selected sticks in rows
     private static boolean choiceIsInvalid;
 
     private static int[] zeroSelect = new int[4];
+    private static int[] select; // to keep track of checked boxes
+    private static int[] computerSelect; // to keep track of computer selection; not to be changed
 
     /* Field to store our TextView */
     private TextView mWhoActionText;
@@ -57,6 +61,7 @@ public class BoardActivity extends AppCompatActivity {
 
     // method to set player
     public static void setPlayer(int playerInt){
+        initialPlayer = playerInt;
         player = playerInt;
     }
 
@@ -75,6 +80,7 @@ public class BoardActivity extends AppCompatActivity {
     // probably should have only worked with Lists instead of additional
     // introduction of arrays, here is a (temp) work around
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private static int[] convertListIntegerToIntArray(List<Integer> list){
         // first get defensive copy of list
         List<Integer> listCopy = Collections.unmodifiableList(list);
@@ -83,6 +89,7 @@ public class BoardActivity extends AppCompatActivity {
         return intStickArray;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private static boolean gameIsOver(List<Integer> stickList){
         int[] stickArray = convertListIntegerToIntArray(stickList);
         int totalSum = getSumOfSticks(stickArray);
@@ -189,12 +196,17 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void initializeBoard(){
+        rowSticksArray = new ArrayList<Integer>();
+
         rowSticksArray.add(7);
         rowSticksArray.add(5);
         rowSticksArray.add(3);
         rowSticksArray.add(1);
 
         gameBoard = new MarienbadBoard();
+
+        // reset initial player
+        player = initialPlayer;
 
         // make defensive copy
         List<Integer> rowSticksCopy = getRowSticksArray();
@@ -334,9 +346,8 @@ public class BoardActivity extends AppCompatActivity {
                     // update board view
                     updateRowsSticksArray();
                     // update Marienbad gameBoard
-                    int rowChosen= getRowSticksToRemove(select)[0];
-                    int numberSticksToRemove = getRowSticksToRemove(select)[1];
-                    gameBoard.change(rowChosen, numberSticksToRemove);
+                    updateMarienbadBoardGame();
+
 
                     List<Integer> stickRowList = getRowSticksArray();
                     endOfGame = gameIsOver(stickRowList);
@@ -448,7 +459,7 @@ public class BoardActivity extends AppCompatActivity {
         String buttonText;
 
         if (nextButtonPressed || onStart) {
-            select = getComputerChoice();
+            computerSelect = getComputerChoice();
         }
 
         buttonText = "continue";
@@ -457,7 +468,7 @@ public class BoardActivity extends AppCompatActivity {
         // setup
         // make defensive copy
         List<Integer> rowSticksCopy = getRowSticksArray();
-        setUpSticks(rowSticksCopy, false, select);
+        setUpSticks(rowSticksCopy, false, computerSelect);
 
 
     }
@@ -482,8 +493,17 @@ public class BoardActivity extends AppCompatActivity {
         // get a defensive copy
         List<Integer> rowsAndSticks = getRowSticksArray();
 
-        int rowChosenIndex = getRowSticksToRemove(select)[0] - 1;
-        int numberSticksToRemove = getRowSticksToRemove(select)[1];
+        int rowChosenIndex = 0;
+        int numberSticksToRemove = 0;
+        if (gameType.equals("computer") && (player == 0)){
+            rowChosenIndex = getRowSticksToRemove(computerSelect)[0] - 1;
+            numberSticksToRemove = getRowSticksToRemove(computerSelect)[1];
+        }
+        else{
+            rowChosenIndex = getRowSticksToRemove(select)[0] - 1;
+            numberSticksToRemove = getRowSticksToRemove(select)[1];
+        }
+
 
         // update
         int currentNumberSticks = rowsAndSticks.get(rowChosenIndex);
@@ -492,8 +512,30 @@ public class BoardActivity extends AppCompatActivity {
         // build new list
         rowSticksArray.set(rowChosenIndex, updatedNumber);
 
+    }
+
+    private void updateMarienbadBoardGame(){
+        // get a defensive copy
+        List<Integer> rowsAndSticks = getRowSticksArray();
+
+        int rowChosen = 0;
+        int numberSticksToRemove = 0;
+        if (gameType.equals("computer") && (player == 0)){
+            rowChosen = getRowSticksToRemove(computerSelect)[0];
+            numberSticksToRemove = getRowSticksToRemove(computerSelect)[1];
+        }
+        else{
+            rowChosen = getRowSticksToRemove(select)[0];
+            numberSticksToRemove = getRowSticksToRemove(select)[1];
+        }
+        // update
+        gameBoard.change(rowChosen, numberSticksToRemove);
 
     }
+
+
+
+
 
     /**
      *
@@ -565,6 +607,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private void resetSelectionArray(){
         select = new int[4];
+        computerSelect = new int[4];
     }
 
 
