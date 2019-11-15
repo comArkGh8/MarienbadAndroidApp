@@ -59,11 +59,9 @@ public class ChoiceOperations {
         if (sortedList.equals(compareList)) {
             Random r = new Random();
             int randomRow = r.nextInt(4) + 1;
-            int totalSticks = 1+2*(randomRow -1);
-            int randomSticks = r.nextInt(totalSticks)+1;
+            int numberSticks = 1;
 
-            choice = Arrays.asList(randomRow,randomSticks);
-
+            choice = Arrays.asList(randomRow,numberSticks);
             return choice;
         }
 
