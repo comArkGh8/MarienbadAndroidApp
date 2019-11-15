@@ -51,7 +51,7 @@ public class BoardActivity extends AppCompatActivity {
     private TextView mWhoActionText;
     /* Field for the next Button */
     private static Button mNextButton;
-    /* Field for Game Over annoucement */
+    /* Field for Game Over announcement */
     private static TextView mGameOverText;
     /* Field for the play again button */
     private static Button mAgainButton;
@@ -237,6 +237,7 @@ public class BoardActivity extends AppCompatActivity {
         mNextButton = (Button) findViewById(R.id.next_button);
         mAgainButton = (Button) findViewById(R.id.new_game_button);
         mGameOverText= (TextView) findViewById(R.id.game_over_text);
+        mWhoActionText = (TextView) findViewById(R.id.whose_action);
 
         mAgainButton.setVisibility(View.INVISIBLE);
         mNextButton.setVisibility(View.VISIBLE);
@@ -274,7 +275,16 @@ public class BoardActivity extends AppCompatActivity {
             // hide next button and set game over text
             mNextButton.setVisibility(View.INVISIBLE);
 
-            if (player == 0){
+
+            if (gameType.equals("computer")){
+                if (player == initialPlayer){
+                    mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
+                }
+                else{
+                    mGameOverText.setText(getString(R.string.game_over_announcement,playerTwoName.toLowerCase()));
+                }
+            }
+            else if (player == 0){
                 mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
             }
             else{
@@ -298,7 +308,6 @@ public class BoardActivity extends AppCompatActivity {
             humanPlay();
         }
 
-        mWhoActionText = (TextView) findViewById(R.id.whose_action);
         if (gameType.equals("computer")){
             if (player == 0){
                 int[] computerArray = getComputerSelection();
@@ -315,6 +324,10 @@ public class BoardActivity extends AppCompatActivity {
             else{
                 mWhoActionText.setText(getString(R.string.player_announcement, "player two"));
             }
+        }
+
+        if (endOfGame) {
+            mWhoActionText.setText("");
         }
 
 
@@ -394,7 +407,15 @@ public class BoardActivity extends AppCompatActivity {
                         setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
                         // hide next button and set game over text
                         mNextButton.setVisibility(View.INVISIBLE);
-                        if (player == 0){
+                        if (gameType.equals("computer")){
+                            if (player == initialPlayer){
+                                mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
+                            }
+                            else{
+                                mGameOverText.setText(getString(R.string.game_over_announcement,playerTwoName.toLowerCase()));
+                            }
+                        }
+                        else if (player == 0){
                             mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
                         }
                         else{
@@ -433,6 +454,9 @@ public class BoardActivity extends AppCompatActivity {
                         else{
                             mWhoActionText.setText(getString(R.string.player_announcement, "player two"));
                         }
+                    }
+                    if (endOfGame) {
+                        mWhoActionText.setText("");
                     }
 
                 }
