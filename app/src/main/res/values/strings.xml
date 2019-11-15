@@ -20,7 +20,7 @@
     <string name="multiple_choice_error"> "Sticks must be removed from the same row!" </string>
     <string name="no_choice_error"> "At least one stick must be chosen" </string>
     <string name="player_announcement"> The player is: %1$d </string>
-    <string name="game_over_announcement"> Game Over.  Player won! </string>
+    <string name="game_over_announcement"> Game Over.  The winner is: %1$s! </string>
     <string name="new_game"> Play again. </string>
 
 

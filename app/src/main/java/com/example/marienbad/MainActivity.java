@@ -36,16 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // TODO: reload
-        // if reloaded need to get radio button choices
-        if (savedInstanceState != null) {
-
-        }
-        else{
-
-        }
-
         /*
          * Using findViewById, we get a reference to our Button from xml. This allows us to
          * do things like set the onClickListener which determines what happens when the button

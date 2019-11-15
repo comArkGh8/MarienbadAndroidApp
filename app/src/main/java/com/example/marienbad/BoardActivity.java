@@ -31,8 +31,11 @@ public class BoardActivity extends AppCompatActivity {
 
     private static MarienbadBoard gameBoard;
 
-    private static int player; // 0 will be computer; 1 will be human
+    private static int player = 0; // 0 will be computer; 1 will be human; initialized to zero to handle two player case
     private static int initialPlayer; // to store in case of back space without change
+    private String playerOneName; // for use with text
+    private String playerTwoName; // for use with text
+
     private static String gameType; // either two_player or computer
     private static int gameLevel; // 1 = easy; 2 = moderate; 3 = difficult
 
@@ -205,9 +208,6 @@ public class BoardActivity extends AppCompatActivity {
 
         gameBoard = new MarienbadBoard();
 
-        // reset initial player
-        player = initialPlayer;
-
         // make defensive copy
         List<Integer> rowSticksCopy = getRowSticksArray();
         // no sticks selected
@@ -225,7 +225,6 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-
 
         // if reloaded just need select array
         if (savedInstanceState != null) {
@@ -247,6 +246,23 @@ public class BoardActivity extends AppCompatActivity {
         // if first time (from start) then setup with initial
         if (onStart) {
             initializeBoard();
+            // reset initial player
+            player = initialPlayer;
+            // set the player names
+            if (gameType.equals("computer")){
+                if (initialPlayer == 0){
+                    playerOneName = "The computer";
+                    playerTwoName = "you";
+                }
+                else{
+                    playerTwoName = "The computer";
+                    playerOneName = "you";
+                }
+            }
+            else{
+                playerOneName = "player 1";
+                playerTwoName = "player 2";
+            }
             nextButtonPressed = true;
         }
 
@@ -260,7 +276,13 @@ public class BoardActivity extends AppCompatActivity {
             setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
             // hide next button and set game over text
             mNextButton.setVisibility(View.INVISIBLE);
-            mGameOverText.setText(R.string.game_over_announcement);
+
+            if (player == 0){
+                mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
+            }
+            else{
+                mGameOverText.setText(getString(R.string.game_over_announcement,playerTwoName.toLowerCase()));
+            }
             mAgainButton.setVisibility(View.VISIBLE);
         }
 
@@ -357,7 +379,12 @@ public class BoardActivity extends AppCompatActivity {
                         setUpSticks(rowSticksCopy, nextButtonPressed, zeroSelect);
                         // hide next button and set game over text
                         mNextButton.setVisibility(View.INVISIBLE);
-                        mGameOverText.setText(R.string.game_over_announcement);
+                        if (player == 0){
+                            mGameOverText.setText(getString(R.string.game_over_announcement,playerOneName.toLowerCase()));
+                        }
+                        else{
+                            mGameOverText.setText(getString(R.string.game_over_announcement,playerTwoName.toLowerCase()));
+                        }
                         mAgainButton.setVisibility(View.VISIBLE);
                     }
                     else{
