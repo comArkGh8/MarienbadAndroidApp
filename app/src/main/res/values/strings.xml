@@ -23,7 +23,7 @@
     <string name="human_player_announcement"> It is your turn.  Please choose your sticks from one row. </string>
     <string name="player_announcement"> It is %1$s\'s turn.  Please choose your sticks from one row. </string>
     <string name="game_over_announcement"> Game Over.  The winner is: %1$s! </string>
-    <string name="new_game"> Play again. </string>
+    <string name="new_game"> Play again </string>
 
 
 
