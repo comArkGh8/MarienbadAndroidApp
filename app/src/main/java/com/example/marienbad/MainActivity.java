@@ -137,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     if (againstComputer){
                         childActivity = ComputerChoiceActivity.class;
                     }
+                    else{
+                        BoardActivity.setPlayer(0);
+                    }
 
                     Intent startChildActivityIntent = new Intent(MainActivity.this, childActivity);
                     startActivity(startChildActivityIntent);

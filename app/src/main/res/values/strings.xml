@@ -19,7 +19,9 @@
     <!-- for BoardActivity -->
     <string name="multiple_choice_error"> "Sticks must be removed from the same row!" </string>
     <string name="no_choice_error"> "At least one stick must be chosen" </string>
-    <string name="player_announcement"> The player is: %1$d </string>
+    <string name="computer_choice_announcement"> It is the computer\'s turn.\nThe computer chooses %1$d stick(s) from row %2$d:</string>
+    <string name="human_player_announcement"> It is your turn.  Please choose your sticks from one row. </string>
+    <string name="player_announcement"> It is %1$s\'s turn.  Please choose your sticks from one row. </string>
     <string name="game_over_announcement"> Game Over.  The winner is: %1$s! </string>
     <string name="new_game"> Play again. </string>
 

@@ -266,9 +266,6 @@ public class BoardActivity extends AppCompatActivity {
             nextButtonPressed = true;
         }
 
-        mWhoActionText = (TextView) findViewById(R.id.whose_action);
-        mWhoActionText.setText(getString(R.string.player_announcement, player));
-
 
         if (endOfGame){
             // setup sticks
@@ -299,6 +296,25 @@ public class BoardActivity extends AppCompatActivity {
         }
         else if (gameType.equals("two_player")){
             humanPlay();
+        }
+
+        mWhoActionText = (TextView) findViewById(R.id.whose_action);
+        if (gameType.equals("computer")){
+            if (player == 0){
+                int[] computerArray = getComputerSelection();
+                mWhoActionText.setText(getString(R.string.computer_choice_announcement, computerArray[1],computerArray[0]));
+            }
+            else{
+                mWhoActionText.setText(R.string.human_player_announcement);
+            }
+        }
+        else{
+            if (player == 0){
+                mWhoActionText.setText(getString(R.string.player_announcement, "player one"));
+            }
+            else{
+                mWhoActionText.setText(getString(R.string.player_announcement, "player two"));
+            }
         }
 
 
@@ -370,7 +386,6 @@ public class BoardActivity extends AppCompatActivity {
                     // update Marienbad gameBoard
                     updateMarienbadBoardGame();
 
-
                     List<Integer> stickRowList = getRowSticksArray();
                     endOfGame = gameIsOver(stickRowList);
                     if (endOfGame){
@@ -401,6 +416,24 @@ public class BoardActivity extends AppCompatActivity {
                             humanPlay();
                         }
                     }
+                    // set the message on top
+                    if (gameType.equals("computer")){
+                        if (player == 0){
+                            int[] computerArray = getComputerSelection();
+                            mWhoActionText.setText(getString(R.string.computer_choice_announcement, computerArray[1],computerArray[0]));
+                        }
+                        else{
+                            mWhoActionText.setText(R.string.human_player_announcement);
+                        }
+                    }
+                    else{
+                        if (player == 0){
+                            mWhoActionText.setText(getString(R.string.player_announcement, "player one"));
+                        }
+                        else{
+                            mWhoActionText.setText(getString(R.string.player_announcement, "player two"));
+                        }
+                    }
 
                 }
 
@@ -427,6 +460,7 @@ public class BoardActivity extends AppCompatActivity {
 
 
     // This can be cleaned up
+    // returned in form [0 , ... , how many sticks chosen, ... 0]
     private int[] getComputerChoice() {
         int[] choiceArray = new int[4];
         List<Integer> choiceList = new ArrayList<>();
@@ -496,8 +530,22 @@ public class BoardActivity extends AppCompatActivity {
         // make defensive copy
         List<Integer> rowSticksCopy = getRowSticksArray();
         setUpSticks(rowSticksCopy, false, computerSelect);
+    }
 
+    private int[] getComputerSelection(){
+        int[] selectionArray = new int[2];
+        int row = 0;
+        int sticks = 0;
+        for (int i = 0; i<4; i++){
+            if (computerSelect[i] > 0){
+                row = i + 1;
+                sticks = computerSelect[i];
+            }
+        }
+        selectionArray[0] = row;
+        selectionArray[1] = sticks;
 
+        return selectionArray;
     }
 
 

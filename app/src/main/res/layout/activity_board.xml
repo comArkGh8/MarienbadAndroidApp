@@ -25,23 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:textSize="16sp"
         android:text="What to do..."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
-        android:padding="10dp"
-        android:text="This will change based on where we are in the game...then the game is displayed..."
-        android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/whose_action" />
 
     <CheckBox
         android:id="@+id/checkBox1_7"
@@ -137,7 +124,7 @@
         app:layout_constraintEnd_toStartOf="@+id/checkBox1_2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_text"
+        app:layout_constraintTop_toBottomOf="@+id/whose_action"
 
         android:onClick="onRowOneCheckboxClicked"/>
 
