@@ -217,6 +217,8 @@ public class BoardActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putIntArray("selection", select);
+        outState.putString("player1", playerOneName);
+        outState.putString("player2", playerTwoName);
         super.onSaveInstanceState(outState);
     }
 
@@ -229,6 +231,8 @@ public class BoardActivity extends AppCompatActivity {
         // if reloaded just need select array
         if (savedInstanceState != null) {
             select = savedInstanceState.getIntArray("selection");
+            playerOneName = savedInstanceState.getString("player1");
+            playerTwoName = savedInstanceState.getString("player2");
         }
         else{
             resetSelectionArray();
