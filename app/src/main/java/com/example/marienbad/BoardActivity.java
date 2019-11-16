@@ -250,6 +250,7 @@ public class BoardActivity extends AppCompatActivity {
 
         // if first time (from start) then setup with initial
         if (onStart) {
+            endOfGame = false;
             initializeBoard();
             // reset initial player
             player = initialPlayer;
