@@ -357,14 +357,14 @@ public class BoardActivity extends AppCompatActivity {
                 // first check if all chosen sticks are in same row
                 if (gameType.equals("computer")){
                     if (player == 1){
-                        choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+                        choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select) || allSticksChosen();
                     }
                     else {
                         choiceIsInvalid = false;
                     }
                 }
                 else if (gameType.equals("two_player")){
-                    choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select);
+                    choiceIsInvalid = multipleRowsSelected() || noSticksSelected(select) || allSticksChosen();
                 }
 
 
@@ -378,7 +378,11 @@ public class BoardActivity extends AppCompatActivity {
 
                     if (multipleRowsSelected()) {
                         toast.setText(R.string.multiple_choice_error);
-                    } else {
+                    }
+                    else if (allSticksChosen()){
+                        toast.setText(R.string.all_sticks_error);
+                    }
+                    else {
                         toast.setText(R.string.no_choice_error);
                     }
 
@@ -698,6 +702,18 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         return noSticks;
+    }
+
+    private boolean allSticksChosen(){
+        // compare number of sticks to total remaining
+        List<Integer> stickList = getRowSticksArray();
+        int[] stickArray = convertListIntegerToIntArray(stickList);
+        int totalSum = getSumOfSticks(stickArray);
+        int numberSticks = getSumOfSticks(select);
+        if (numberSticks == totalSum){
+            return true;
+        }
+        return false;
     }
 
     private void incrementSelect(int rowIndex, boolean checked){
